@@ -1,0 +1,16 @@
+on:
+  push:
+    branches:
+    - main
+    - release/*
+  workflow_dispatch:
+    
+jobs:
+  my_job:
+    name: deploy to staging
+    runs-on: self-hosted
+    steps:
+      - run: echo "Hello World"
+        name: Basic Output
+
+    
