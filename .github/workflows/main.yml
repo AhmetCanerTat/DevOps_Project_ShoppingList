@@ -10,7 +10,7 @@ jobs:
     name: deploy to staging
     runs-on: self-hosted
     steps:
-      - run: echo "Hello World"
+      - run: docker run hello-world
         name: Basic Output
 
     
