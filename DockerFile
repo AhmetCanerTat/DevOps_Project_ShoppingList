@@ -10,19 +10,11 @@ COPY public/ /app/public
 COPY src/ /app/src
 COPY package.json /app/
 
-# Install project dependencies
+# Install project dependencies with script
 
-RUN npm install
-RUN npm i --save @fortawesome/fontawesome-svg-core
+RUN chod +x ./build.sh
 
-# Copy the rest of the application files to the working directory
-#COPY . .
-
-# Build the React application
-RUN npm run build
-
-# Expose a port for the application (adjust if necessary)
-EXPOSE 3000
 
 # Define the command to start the application
-CMD [ "npm", "start" ]
+CMD ["./build.sh" ]
+
