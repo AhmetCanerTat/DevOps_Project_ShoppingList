@@ -12,9 +12,9 @@ COPY package.json /app/
 
 # Install project dependencies with script
 
+COPY ./build.sh /app/
 RUN chmod +x ./build.sh
 
 
 # Define the command to start the application
 CMD ["./build.sh" ]
-
