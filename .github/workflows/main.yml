@@ -10,7 +10,8 @@ jobs:
     name: deploy to staging
     runs-on: self-hosted
     steps:
-      - run: docker run hello-world
+      - run: |
+          docker build .
         name: Basic Output
 
     
