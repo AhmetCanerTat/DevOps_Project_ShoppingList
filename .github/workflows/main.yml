@@ -27,6 +27,12 @@ jobs:
           docker image rm run-image:0.0.1 || true
           docker build -t run-image:0.0.1 -f run.Dockerfile .
         name: Build2
+      - run: |
+          docker image tag run-image:0.0.1 10.0.40.160:5000/shoppingList/test:0.0.1 
+        name: tag
+      - run: |
+           docker image push 10.0.40.160:5000/shoppingList/test:0.0.1  
+        name: push
      
 
     
