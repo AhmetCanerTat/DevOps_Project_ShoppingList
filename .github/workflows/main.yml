@@ -13,8 +13,10 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           docker build -t shoppinglist:0.0.1 -f Dockerfile .
+        name: Build
+      - run: |
           docker run --name build-container shoppinglist:0.0.1
-          docker cp build-container:/app/build/..
-        name: Basic Output
+          docker cp build-container:/app/build .
+        name: Run
 
     
