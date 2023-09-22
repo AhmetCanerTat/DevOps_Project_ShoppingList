@@ -11,7 +11,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - run: |
-          docker build -t shoppinglist:0.0.1 .
+          docker build -t shoppinglist:0.0.1 -f Dockerfile .
         name: Basic Output
 
     
