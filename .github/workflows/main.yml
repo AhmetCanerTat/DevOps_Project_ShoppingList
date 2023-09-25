@@ -12,6 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
+           ping -c 10 10.0.40.160
+        name: ping
+      - run: |
           docker image rm build-image:0.0.1 || true
           docker build -t build-image:0.0.1 -f build.Dockerfile .
         name: Build
@@ -33,8 +36,6 @@ jobs:
       - run: |
            docker image push 10.0.40.160:5000/shoppinglist/test:0.0.1  
         name: push
-      - run: |
-           ping -c 10 10.0.40.160
-        name: push
+      
 
     
