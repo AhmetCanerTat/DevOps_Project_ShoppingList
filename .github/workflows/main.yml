@@ -12,9 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-           ping -c 10 10.0.40.160
-        name: ping
-      - run: |
           docker image rm build-image:0.0.1 || true
           docker build -t build-image:0.0.1 -f build.Dockerfile .
         name: Build
@@ -44,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          ssh fhvdevops@10.0.40.162 'echo "This is the run command"'
+          ssh user@targethost 'bash -s' < ./deploy.sh
         name: run command
 
     
