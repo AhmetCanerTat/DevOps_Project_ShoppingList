@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          ssh user@targethost 'bash -s' < ./deploy.sh
+          ssh fhvdevops@10.0.40.162 'bash -s' < ./deploy.sh
         name: run command
 
     
