@@ -36,7 +36,7 @@ jobs:
           docker tag run-image:0.0.1 10.0.40.160:5000/shoppinglist/test:0.0.2 
         name: tag
       - run: |
-           docker push -f 10.0.40.160:5000/shoppinglist/test:0.0.2  
+           docker push 10.0.40.160:5000/shoppinglist/test:0.0.2  
         name: push
         
   deploy:
