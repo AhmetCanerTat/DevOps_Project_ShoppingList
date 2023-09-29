@@ -7,7 +7,7 @@ on:
     
 jobs:
   my_job:
-    name: deploy to staging
+    name: build
     runs-on: caner
     steps:
       - uses: actions/checkout@v4
@@ -36,6 +36,15 @@ jobs:
       - run: |
            docker image push 10.0.40.160:5000/shoppinglist/test:0.0.1  
         name: push
-      
+        
+  deploy:
+    name: Deploy
+    runs-on: caner
+    needs: {build}
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          ssh fhvdevops@10.0.40.162 'echo "This is the run command"
+        name: run command
 
     
