@@ -12,6 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
+          export DOCKER_DEFAULT_PLATFORM=linux/amd64
           docker container stop build-container || true
           docker container rm build-container || true
           docker image rm build-image:0.0.1 || true
@@ -32,10 +33,10 @@ jobs:
           docker build  --platform linux/amd64 -t run-image:0.0.1 -f run.Dockerfile .
         name: Build2
       - run: |
-          docker image tag run-image:0.0.1 10.0.40.160:5000/shoppinglist/test:0.0.1 
+          docker tag -f run-image:0.0.1 10.0.40.160:5000/shoppinglist/test:0.0.1 
         name: tag
       - run: |
-           docker image push 10.0.40.160:5000/shoppinglist/test:0.0.1  
+           docker push -f 10.0.40.160:5000/shoppinglist/test:0.0.1  
         name: push
         
   deploy:
