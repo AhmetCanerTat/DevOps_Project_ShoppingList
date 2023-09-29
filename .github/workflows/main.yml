@@ -12,18 +12,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
+          docker container stop build-container || true
+          docker container rm build-container || true
           docker image rm build-image:0.0.1 || true
+        name: Cleanup
+      - run: |
           docker build -t build-image:0.0.1 -f build.Dockerfile .
         name: Build
       - run: |
-          docker container rm build-container || true 
-          docker run --name build-container shoppinglist:0.0.1
+          docker run --name build-container build-image:0.0.1
         name: Run
       - run: |
           docker cp build-container:/app/build .
           ls -al
         name: Copy
       - run: |
+          docker container rm build-container || true
           docker image rm run-image:0.0.1 || true
           docker build -t run-image:0.0.1 -f run.Dockerfile .
         name: Build2
