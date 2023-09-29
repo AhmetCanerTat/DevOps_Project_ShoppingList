@@ -33,10 +33,10 @@ jobs:
           docker build  --platform linux/amd64 -t run-image:0.0.1 -f run.Dockerfile .
         name: Build2
       - run: |
-          docker tag run-image:0.0.1 10.0.40.160:5000/shoppinglist/test:0.0.1 
+          docker tag run-image:0.0.1 10.0.40.160:5000/shoppinglist/test:0.0.2 
         name: tag
       - run: |
-           docker push -f 10.0.40.160:5000/shoppinglist/test:0.0.1  
+           docker push -f 10.0.40.160:5000/shoppinglist/test:0.0.2  
         name: push
         
   deploy:
