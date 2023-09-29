@@ -1,10 +1,10 @@
 on:
   push:
     branches:
-    - main
-    - release/*
+      - main
+      - release/*
   workflow_dispatch:
-    
+
 jobs:
   my_job:
     name: build
@@ -33,12 +33,12 @@ jobs:
           docker build  --platform linux/amd64 -t run-image:0.0.1 -f run.Dockerfile .
         name: Build2
       - run: |
-          docker tag run-image:0.0.1 10.0.40.160:5000/shoppinglist/test:0.0.2 
+          docker tag run-image:0.0.1 10.0.40.160:5000/shoppinglist/test:0.0.3
         name: tag
       - run: |
-           docker push 10.0.40.160:5000/shoppinglist/test:0.0.2  
+          docker push 10.0.40.160:5000/shoppinglist/test:0.0.3
         name: push
-        
+
   deploy:
     name: Deploy
     runs-on: caner
@@ -48,5 +48,3 @@ jobs:
       - run: |
           ssh fhvdevops@10.0.40.162 'bash -s' < ./deploy.sh
         name: run command
-
-    
