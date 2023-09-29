@@ -44,7 +44,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          ssh fhvdevops@10.0.40.162 'echo "This is the run command"
+          ssh fhvdevops@10.0.40.162 'echo "This is the run command"'
         name: run command
 
     
