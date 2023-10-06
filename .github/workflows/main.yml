@@ -46,5 +46,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          ssh fhvdevops@10.0.40.162 'bash -s' < ./deploy.sh
+          ssh-keyscan 10.0.40.162 > tmpknownhosts
+          ssh -o UserKnownHostsFile=tmpknownhosts fhvdevops@10.0.40.162 'bash -s' < ./deploy.sh
+          rm tmpknownhosts
         name: run command
