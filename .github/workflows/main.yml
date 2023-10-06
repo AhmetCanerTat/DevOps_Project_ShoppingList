@@ -61,14 +61,14 @@ jobs:
           curl -Is 10.0.40.162:8085 | head -n 1
         name: test
 
-production:
-  name: Production
-  runs-on: caner
-  needs: [test]
-  steps:
-    - uses: actions/checkout@v4
-    - run: |
-        ssh-keyscan 10.0.40.162 > tmpknownhosts
-        ssh -o UserKnownHostsFile=tmpknownhosts fhvdevops@10.0.40.162 'bash -s' < ./deploy.sh prod
-        rm tmpknownhosts
-      name: run command
+  production:
+    name: Production
+    runs-on: caner
+    needs: [test]
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          ssh-keyscan 10.0.40.162 > tmpknownhosts
+          ssh -o UserKnownHostsFile=tmpknownhosts fhvdevops@10.0.40.162 'bash -s' < ./deploy.sh prod
+          rm tmpknownhosts
+        name: run command
