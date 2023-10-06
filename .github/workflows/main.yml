@@ -50,3 +50,13 @@ jobs:
           ssh -o UserKnownHostsFile=tmpknownhosts fhvdevops@10.0.40.162 'bash -s' < ./deploy.sh
           rm tmpknownhosts
         name: run command
+
+  test:
+    name: Test
+    runs-on: caner
+    needs: [deploy]
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          curl -Is 10.0.40.162:8081 | head -n 1 | cut -d' ' -f3-
+        name: test
