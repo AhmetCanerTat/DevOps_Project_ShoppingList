@@ -1,6 +1,6 @@
 #!/bin/bash
 
-response=$(curl -Is 10.0.40.162:8081 | head -n 1)
+response=$(curl -Is 10.0.40.192:8081 | head -n 1)
 
 if [[ "$response" == "HTTP/1.1 200 OK"* ]]; then
     echo "Server responded with 200 OK."
