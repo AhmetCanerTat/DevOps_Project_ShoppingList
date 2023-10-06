@@ -58,7 +58,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          curl -Is 10.0.40.162:8085 | head -n 1
+          curl -Is 10.0.40.162:8082 | head -n 1
         name: test
 
   production:
