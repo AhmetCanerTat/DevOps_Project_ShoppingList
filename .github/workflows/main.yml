@@ -8,7 +8,7 @@ on:
 jobs:
   my_job:
     name: build
-    runs-on: iven
+    runs-on: alexander
     steps:
       - uses: actions/checkout@v4
       - run: |
@@ -41,7 +41,7 @@ jobs:
 
   deploy:
     name: Deploy
-    runs-on: iven
+    runs-on: alexander
     needs: [my_job]
     steps:
       - uses: actions/checkout@v4
