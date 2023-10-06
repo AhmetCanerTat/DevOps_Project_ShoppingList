@@ -58,7 +58,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          'bash -s' < ./running_test.sh
+          chmod +x ./running_test.sh
+          ./running_test.sh
         name: test
 
   production:
