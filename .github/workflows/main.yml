@@ -26,7 +26,6 @@ jobs:
       - run: |
           docker build -t doc-image:0.0.1 -f doc.Dockerfile .
           docker run --name doc-container doc-image:0.0.1
-          docker run --rm -v app/docs build
           ls -al
         name: mdtohtml
       - run: |
