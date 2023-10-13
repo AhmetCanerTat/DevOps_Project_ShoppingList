@@ -32,7 +32,6 @@ jobs:
           ssh -o UserKnownHostsFile=tmpknownhosts  fhvdevops@10.0.40.161 "rm -r /var/www/html/3 || true" 
           scp  -o UserKnownHostsFile=tmpknownhosts -r ./site fhvdevops@10.0.40.161:/var/www/html/3
           rm tmpknownhosts
-
         name: mdtohtml
       - run: |
           docker run --name build-container build-image:0.0.1
