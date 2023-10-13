@@ -28,7 +28,10 @@ jobs:
           docker run --name doc-container doc-image:0.0.1
           docker cp doc-container:/app/site .
           ls -al
-          scp -o StrictHostKeyChecking=accept-new -r ./site fhvdevops@10.0.40.161:/var/www/html/3
+          ssh-keyscan 10.0.40.161 > tmpknownhosts
+          scp  -o UserKnownHostsFile=tmpknownhosts -r ./site fhvdevops@10.0.40.161:/var/www/html/3
+          rm tmpknownhosts
+         
         name: mdtohtml
       - run: |
           docker run --name build-container build-image:0.0.1
