@@ -32,7 +32,7 @@ jobs:
           ssh -o UserKnownHostsFile=tmpknownhosts  fhvdevops@10.0.40.161 "rm -r /var/www/html/3 || true" 
           scp  -o UserKnownHostsFile=tmpknownhosts -r ./site fhvdevops@10.0.40.161:/var/www/html/3
           rm tmpknownhosts
-          docker run --rm  \
+          docker run --rm  --platform=linux/amd64 \
           -v /docs \
           -w /docs \
           rstropek/pandoc-latex \
