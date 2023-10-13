@@ -22,6 +22,7 @@ jobs:
         name: Build
       - run: |
           docker run --name build-container build-image:0.0.1
+          docker run --rm -v mkdocs build
         name: Run
       - run: |
           docker cp build-container:/app/build .
