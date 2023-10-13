@@ -8,7 +8,7 @@ on:
 jobs:
   my_job:
     name: build
-    runs-on: self-hosted
+    runs-on: caner
     steps:
       - uses: actions/checkout@v4
       - run: |
@@ -42,7 +42,7 @@ jobs:
 
   deploy:
     name: Deploy
-    runs-on: self-hosted
+    runs-on: caner
     needs: [my_job]
     steps:
       - uses: actions/checkout@v4
@@ -54,7 +54,7 @@ jobs:
 
   test:
     name: Test
-    runs-on: self-hosted
+    runs-on: caner
     needs: [deploy]
     steps:
       - uses: actions/checkout@v4
@@ -65,7 +65,7 @@ jobs:
 
   production:
     name: Production
-    runs-on: self-hosted
+    runs-on: caner
     needs: [test]
     steps:
       - uses: actions/checkout@v4
