@@ -24,24 +24,15 @@ jobs:
           docker build -t build-image:0.0.1 -f build.Dockerfile .
         name: Build
       - run: |
-          docker build --platform linux/amd64 -t  doc-image:0.0.1 -f doc.Dockerfile .
-          docker run  --platform=linux/amd64 --name doc-container doc-image:0.0.1
+          docker build -t  doc-image:0.0.1 -f doc.Dockerfile .
+          docker run --name doc-container doc-image:0.0.1
           docker cp doc-container:/app/site .
           ls -al
           ssh-keyscan 10.0.40.161 > tmpknownhosts
           ssh -o UserKnownHostsFile=tmpknownhosts  fhvdevops@10.0.40.161 "rm -r /var/www/html/3 || true" 
           scp  -o UserKnownHostsFile=tmpknownhosts -r ./site fhvdevops@10.0.40.161:/var/www/html/3
           rm tmpknownhosts
-          docker run --rm --platform=linux/amd64 \
-          -v /docs \
-          -w /docs \
-          rstropek/pandoc-latex \
-          -f markdown \
-          --template https://raw.githubusercontent.com/Wandmalfarbe/pandoc-latex-template/v2.0.0/eisvogel.tex \
-          -t latex \
-          -o mydoc.pdf \
-          --metadata-file=mydoc.yaml \
-          mydoc.md
+
         name: mdtohtml
       - run: |
           docker run --name build-container build-image:0.0.1
