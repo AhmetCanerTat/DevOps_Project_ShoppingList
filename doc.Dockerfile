@@ -3,5 +3,8 @@ RUN pip install mkdocs-material
 
 
 WORKDIR /app
-COPY public/ /app/public
-COPY src/ /app/src
+COPY docs/ /app/docs
+COPY mkdocs.yml /app/
+
+
+CMD ["docker run --rm -v mkdocs build"]
