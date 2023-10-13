@@ -12,4 +12,4 @@ site_dir: site
 
 # List of pages and their locations
 nav:
-  - Home: doc.md
+  - Home: index.html
