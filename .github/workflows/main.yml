@@ -18,12 +18,13 @@ jobs:
           docker container rm doc-container || true 
           docker container rm build-container || true
           docker image rm build-image:0.0.1 || true
-          docker image rm doc-image:0.0.1 || true 
+          docker image rm doc-image:0.0.1 || true
         name: Cleanup
+
       - run: |
           docker build -t build-image:0.0.1 -f build.Dockerfile .
         name: Build
-        - run: |
+      - run: |
           docker build -t doc-image:0.0.1 -f doc.Dockerfile .
           docker run --name doc-container doc-image:0.0.1
           docker run --rm -v mkdocs build
