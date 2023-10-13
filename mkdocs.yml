@@ -1,4 +1,15 @@
-site_name: My Project Documentation
-Documentation: "doc.md"
+site_name: My Awesome Documentation
+
+# Theme configuration
 theme:
-  name: material
+  name: "mkdocs" # This is the default theme. You can change to another like 'material' if you have it installed.
+
+# Directory where the documentation source files are located
+docs_dir: docs
+
+# Directory where the built documentation files will be placed
+site_dir: site
+
+# List of pages and their locations
+nav:
+  - Home: doc.md
