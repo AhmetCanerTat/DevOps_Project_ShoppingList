@@ -14,21 +14,24 @@ jobs:
       - run: |
           export DOCKER_DEFAULT_PLATFORM=linux/amd64
           docker container stop build-container || true
+          docker container stop doc-container || true 
+          docker container rm doc-container || true 
           docker container rm build-container || true
           docker image rm build-image:0.0.1 || true
+          docker image rm doc-image:0.0.1 || true 
         name: Cleanup
       - run: |
           docker build -t build-image:0.0.1 -f build.Dockerfile .
         name: Build
-      - run: |
-          docker run --name build-container build-image:0.0.1
-        name: Run
-      - run: |
+        - run: |
           docker build -t doc-image:0.0.1 -f doc.Dockerfile .
           docker run --name doc-container doc-image:0.0.1
           docker run --rm -v mkdocs build
           ls -al
         name: mdtohtml
+      - run: |
+          docker run --name build-container build-image:0.0.1
+        name: Run
       - run: |
           docker cp build-container:/app/build .
           ls -al
