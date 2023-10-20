@@ -32,7 +32,7 @@ jobs:
           -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=team3" \
           -e SONAR_TOKEN="sqp_de8a39e03036849225fa3167dce9ffdaf24b2b0b" \
           -v "$PROJPATH:/usr/src" \
-          koolwithk/sonarqube-arm:9.2.4-community
+          sonarsource/sonar-scanner-cli
         name: sonarqube
       - run: |
           docker run --name build-container build-image:0.0.1
