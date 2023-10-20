@@ -24,7 +24,7 @@ jobs:
           docker build -t build-image:0.0.1 -f build.Dockerfile .
         name: Build
       - run: |
-          PROJPATH=$(pwd)
+          PROJPATH=$(pwd)/src
           echo "Using project path $PROJPATH"
           docker run \
           --rm \
