@@ -31,7 +31,7 @@ jobs:
           ls -al
         name: Copy
       - run: |
-          docker run --platform linux/amd64 \  
+          docker run \  
           --rm \
           -e SONAR_HOST_URL="http://10.0.40.161:9000" \
           -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=team3" \
@@ -39,7 +39,7 @@ jobs:
           -v "${pwd}:/usr/src" \
           sonarsource/sonar-scanner-cli
         name: sonarqube
-        
+
       - run: |
           docker build -t  doc-image:0.0.1 -f doc.Dockerfile .
           docker run --name doc-container doc-image:0.0.1
@@ -49,7 +49,7 @@ jobs:
           scp  -o UserKnownHostsFile=tmpknownhosts -r ./site fhvdevops@10.0.40.161:/var/www/html/3
           rm tmpknownhosts
         name: mdtohtml
-     
+
       - run: |
           docker container rm build-container || true
           docker image rm run-image:0.0.1 || true
