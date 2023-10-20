@@ -36,7 +36,7 @@ jobs:
           -e SONAR_HOST_URL="http://10.0.40.161:9000" \
           -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=team3" \
           -e SONAR_TOKEN="sqp_de8a39e03036849225fa3167dce9ffdaf24b2b0b" \
-          -v "${pwd}:/usr/src" \
+          -v "$(pwd):/usr/src" \
           sonarsource/sonar-scanner-cli
         name: sonarqube
 
