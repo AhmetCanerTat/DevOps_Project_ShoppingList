@@ -24,13 +24,6 @@ jobs:
           docker build -t build-image:0.0.1 -f build.Dockerfile .
         name: Build
       - run: |
-          docker run --name build-container build-image:0.0.1
-        name: Run
-      - run: |
-          docker cp build-container:/app/build .
-          ls -al
-        name: Copy
-      - run: |
           PROJPATH=$(pwd)
           echo "Using project path $PROJPATH"
           docker run \
@@ -39,8 +32,15 @@ jobs:
           -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=team3" \
           -e SONAR_TOKEN="sqp_de8a39e03036849225fa3167dce9ffdaf24b2b0b" \
           -v "$PROJPATH:/usr/src" \
-          sonarsource/sonar-scanner-cli
+          koolwithk/sonarqube-arm:9.2.4-community
         name: sonarqube
+      - run: |
+          docker run --name build-container build-image:0.0.1
+        name: Run
+      - run: |
+          docker cp build-container:/app/build .
+          ls -al
+        name: Copy
 
       - run: |
           docker build -t  doc-image:0.0.1 -f doc.Dockerfile .
