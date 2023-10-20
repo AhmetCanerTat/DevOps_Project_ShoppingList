@@ -26,16 +26,16 @@ jobs:
       - run: |
           PROJPATH=$(pwd)/src
           echo "Using project path $PROJPATH"
-          docker run \ --name sonarqube-scanner \
+          docker run  \
           --rm \
           -e SONAR_HOST_URL="http://10.0.40.161:9000" \
           -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=team3" \
           -e SONAR_TOKEN="sqp_de8a39e03036849225fa3167dce9ffdaf24b2b0b" \
           -v "$PROJPATH:/usr/src" \
           sonarsource/sonar-scanner-cli
+          docker run -v $(pwd):/usr/src bash rm -rf /usr/src/.scannerwork
         name: sonarqube
       - run: |
-          docker exec sonarqube-scanner /bin/bash -c 'rm -rf .scannerwork'
           docker run --name build-container build-image:0.0.1
         name: Run
       - run: |
