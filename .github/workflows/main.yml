@@ -50,14 +50,14 @@ jobs:
           docker run --name doc-container doc-image:0.0.1
           docker cp doc-container:/app/site .
           docker run --rm \
-          --volume "$(pwd):/docs" \
+          --volume "$(pwd)/docs:/data" \
           pandoc/latex index.md -o outfile.pdf
           ssh-keyscan 10.0.40.161 > tmpknownhosts
           ssh -o UserKnownHostsFile=tmpknownhosts  fhvdevops@10.0.40.161 "rm -r /var/www/html/3 || true" 
           scp  -o UserKnownHostsFile=tmpknownhosts -r ./site fhvdevops@10.0.40.161:/var/www/html/3
           scp  -o UserKnownHostsFile=tmpknownhosts outfile.pdf fhvdevops@10.0.40.161:/var/www/html/3
           rm tmpknownhosts
-          
+
         name: mdtohtml
 
       - run: |
