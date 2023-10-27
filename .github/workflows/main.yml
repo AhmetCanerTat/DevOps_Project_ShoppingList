@@ -8,7 +8,7 @@ on:
 jobs:
   my_job:
     name: build
-    runs-on: self-hosted
+    runs-on: alexander
     steps:
       - uses: actions/checkout@v4
       - run: |
@@ -81,7 +81,7 @@ jobs:
 
   deploy:
     name: Deploy
-    runs-on: self-hosted
+    runs-on: alexander
     needs: [my_job]
     steps:
       - uses: actions/checkout@v4
@@ -93,7 +93,7 @@ jobs:
 
   test:
     name: Test
-    runs-on: self-hosted
+    runs-on: alexander
     needs: [deploy]
     steps:
       - uses: actions/checkout@v4
@@ -104,7 +104,7 @@ jobs:
 
   production:
     name: Production
-    runs-on: self-hosted
+    runs-on: alexander
     needs: [test]
     steps:
       - uses: actions/checkout@v4
