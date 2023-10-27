@@ -11,15 +11,15 @@ jobs:
     runs-on: alexander
     steps:
       - uses: actions/checkout@v4
-      # - run: |
-      #     export DOCKER_DEFAULT_PLATFORM=linux/amd64
-      #     docker container stop build-container || true
-      #     docker container stop doc-container || true 
-      #     docker container rm doc-container || true 
-      #     docker container rm build-container || true
-      #     docker image rm build-image:0.0.1 || true
-      #     docker image rm doc-image:0.0.1 || true
-      #   name: Cleanup
+      - run: |
+          export DOCKER_DEFAULT_PLATFORM=linux/amd64
+          docker container stop build-container || true
+          docker container stop doc-container || true 
+          docker container rm doc-container || true 
+          docker container rm build-container || true
+          docker image rm build-image:0.0.1 || true
+          docker image rm doc-image:0.0.1 || true
+        name: Cleanup
       # - run: |
       #     docker build -t build-image:0.0.1 -f build.Dockerfile .
       #   name: Build
@@ -55,7 +55,7 @@ jobs:
           rm tmpknownhosts
 
         name: mdtohtml
-      - run: | 
+      - run: |
           docker run --rm \
           --volume "$(pwd)/docs:/data" \
           pandoc/latex index.md -o outfile.pdf
@@ -66,7 +66,6 @@ jobs:
           rm tmpknownhosts
 
         name: mdtopdf
-
 
   #     - run: |
   #         docker container rm build-container || true
@@ -88,7 +87,7 @@ jobs:
   #     - uses: actions/checkout@v4
   #     - run: |
   #         ssh-keyscan 10.0.40.162 > tmpknownhosts
-  #         ssh -o UserKnownHostsFile=tmpknownhosts fhvdevops@10.0.40.162 'bash -s' < ./test.sh 
+  #         ssh -o UserKnownHostsFile=tmpknownhosts fhvdevops@10.0.40.162 'bash -s' < ./test.sh
   #         rm tmpknownhosts
   #       name: run command
 
@@ -111,6 +110,6 @@ jobs:
   #     - uses: actions/checkout@v4
   #     - run: |
   #         ssh-keyscan 10.0.40.162 > tmpknownhosts
-  #         ssh -o UserKnownHostsFile=tmpknownhosts fhvdevops@10.0.40.162 'bash -s' < ./prod.sh 
+  #         ssh -o UserKnownHostsFile=tmpknownhosts fhvdevops@10.0.40.162 'bash -s' < ./prod.sh
   #         rm tmpknownhosts
   #       name: run command
