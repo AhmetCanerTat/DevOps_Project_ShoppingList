@@ -80,7 +80,7 @@ jobs:
         name: push
 
   deploy:
-    name: Deploy
+    name: Test-Deploy
     runs-on: alexander
     needs: [my_job]
     steps:
