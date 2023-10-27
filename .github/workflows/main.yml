@@ -62,7 +62,7 @@ jobs:
           ls -al
           ls -al docs
           ssh-keyscan 10.0.40.161 > tmpknownhosts
-          scp  -o UserKnownHostsFile=tmpknownhosts docs/outfile.pdf fhvdevops@10.0.40.161:/var/www/html/3
+          scp  -o UserKnownHostsFile=tmpknownhosts docs/outfile.pdf fhvdevops@10.0.40.161:/var/www/html/3/outfile.pdf
           rm tmpknownhosts
 
         name: mdtopdf
