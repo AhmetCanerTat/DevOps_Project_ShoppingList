@@ -11,98 +11,106 @@ jobs:
     runs-on: alexander
     steps:
       - uses: actions/checkout@v4
-      - run: |
-          export DOCKER_DEFAULT_PLATFORM=linux/amd64
-          docker container stop build-container || true
-          docker container stop doc-container || true 
-          docker container rm doc-container || true 
-          docker container rm build-container || true
-          docker image rm build-image:0.0.1 || true
-          docker image rm doc-image:0.0.1 || true
-        name: Cleanup
-      - run: |
-          docker build -t build-image:0.0.1 -f build.Dockerfile .
-        name: Build
-      - run: |
-          PROJPATH=$(pwd)/src
-          echo "Using project path $PROJPATH"
-          docker run  \
-          --rm \
-          -e SONAR_HOST_URL="http://10.0.40.161:9000" \
-          -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=team3" \
-          -e SONAR_TOKEN="sqp_de8a39e03036849225fa3167dce9ffdaf24b2b0b" \
-          -v "$PROJPATH:/usr/src" \
-          sonarsource/sonar-scanner-cli
-          docker run -v $(pwd):/usr/src bash rm -rf /usr/src/.scannerwork
-          docker run -v $(pwd):/usr/src bash rm -rf /usr/src/src/.scannerwork
-          ls -al
-        name: sonarqube
-      - run: |
-          docker run --name build-container build-image:0.0.1
-        name: Run
-      - run: |
-          docker cp build-container:/app/build .
-          ls -al
-        name: Copy
+      # - run: |
+      #     export DOCKER_DEFAULT_PLATFORM=linux/amd64
+      #     docker container stop build-container || true
+      #     docker container stop doc-container || true 
+      #     docker container rm doc-container || true 
+      #     docker container rm build-container || true
+      #     docker image rm build-image:0.0.1 || true
+      #     docker image rm doc-image:0.0.1 || true
+      #   name: Cleanup
+      # - run: |
+      #     docker build -t build-image:0.0.1 -f build.Dockerfile .
+      #   name: Build
+      # - run: |
+      #     PROJPATH=$(pwd)/src
+      #     echo "Using project path $PROJPATH"
+      #     docker run  \
+      #     --rm \
+      #     -e SONAR_HOST_URL="http://10.0.40.161:9000" \
+      #     -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=team3" \
+      #     -e SONAR_TOKEN="sqp_de8a39e03036849225fa3167dce9ffdaf24b2b0b" \
+      #     -v "$PROJPATH:/usr/src" \
+      #     sonarsource/sonar-scanner-cli
+      #     docker run -v $(pwd):/usr/src bash rm -rf /usr/src/.scannerwork
+      #     docker run -v $(pwd):/usr/src bash rm -rf /usr/src/src/.scannerwork
+      #     ls -al
+      #   name: sonarqube
+      # - run: |
+      #     docker run --name build-container build-image:0.0.1
+      #   name: Run
+      # - run: |
+      #     docker cp build-container:/app/build .
+      #     ls -al
+      #   name: Copy
 
       - run: |
           docker build -t  doc-image:0.0.1 -f doc.Dockerfile .
           docker run --name doc-container doc-image:0.0.1
           docker cp doc-container:/app/site .
-          docker run --rm \
-          --volume "$(pwd)/docs:/data" \
-          pandoc/latex index.md -o outfile.pdf
           ssh-keyscan 10.0.40.161 > tmpknownhosts
           ssh -o UserKnownHostsFile=tmpknownhosts  fhvdevops@10.0.40.161 "rm -r /var/www/html/3 || true" 
           scp  -o UserKnownHostsFile=tmpknownhosts -r ./site fhvdevops@10.0.40.161:/var/www/html/3
-          scp  -o UserKnownHostsFile=tmpknownhosts ./outfile.pdf fhvdevops@10.0.40.161:/var/www/html/3
           rm tmpknownhosts
 
         name: mdtohtml
-
-      - run: |
-          docker container rm build-container || true
-          docker image rm run-image:0.0.1 || true
-          docker build  --platform linux/amd64 -t run-image:0.0.1 -f run.Dockerfile .
-        name: Build2
-      - run: |
-          docker tag run-image:0.0.1 10.0.40.160:5000/shoppinglist/test:0.0.3
-        name: tag
-      - run: |
-          docker push 10.0.40.160:5000/shoppinglist/test:0.0.3
-        name: push
-
-  deploy:
-    name: Deploy
-    runs-on: alexander
-    needs: [my_job]
-    steps:
-      - uses: actions/checkout@v4
-      - run: |
-          ssh-keyscan 10.0.40.162 > tmpknownhosts
-          ssh -o UserKnownHostsFile=tmpknownhosts fhvdevops@10.0.40.162 'bash -s' < ./test.sh 
+      - run: | 
+          docker run --rm \
+          --volume "$(pwd)/docs:/data" \
+          pandoc/latex index.md -o outfile.pdf
+          ls -al
+          ls -al docs
+          ssh-keyscan 10.0.40.161 > tmpknownhosts
+          scp  -o UserKnownHostsFile=tmpknownhosts .docs/outfile.pdf fhvdevops@10.0.40.161:/var/www/html/3
           rm tmpknownhosts
-        name: run command
 
-  test:
-    name: Test
-    runs-on: alexander
-    needs: [deploy]
-    steps:
-      - uses: actions/checkout@v4
-      - run: |
-          chmod +x ./running_test.sh
-          ./running_test.sh
-        name: test
+        name: mdtopdf
 
-  production:
-    name: Production
-    runs-on: alexander
-    needs: [test]
-    steps:
-      - uses: actions/checkout@v4
-      - run: |
-          ssh-keyscan 10.0.40.162 > tmpknownhosts
-          ssh -o UserKnownHostsFile=tmpknownhosts fhvdevops@10.0.40.162 'bash -s' < ./prod.sh 
-          rm tmpknownhosts
-        name: run command
+
+  #     - run: |
+  #         docker container rm build-container || true
+  #         docker image rm run-image:0.0.1 || true
+  #         docker build  --platform linux/amd64 -t run-image:0.0.1 -f run.Dockerfile .
+  #       name: Build2
+  #     - run: |
+  #         docker tag run-image:0.0.1 10.0.40.160:5000/shoppinglist/test:0.0.3
+  #       name: tag
+  #     - run: |
+  #         docker push 10.0.40.160:5000/shoppinglist/test:0.0.3
+  #       name: push
+
+  # deploy:
+  #   name: Deploy
+  #   runs-on: alexander
+  #   needs: [my_job]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - run: |
+  #         ssh-keyscan 10.0.40.162 > tmpknownhosts
+  #         ssh -o UserKnownHostsFile=tmpknownhosts fhvdevops@10.0.40.162 'bash -s' < ./test.sh 
+  #         rm tmpknownhosts
+  #       name: run command
+
+  # test:
+  #   name: Test
+  #   runs-on: alexander
+  #   needs: [deploy]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - run: |
+  #         chmod +x ./running_test.sh
+  #         ./running_test.sh
+  #       name: test
+
+  # production:
+  #   name: Production
+  #   runs-on: alexander
+  #   needs: [test]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - run: |
+  #         ssh-keyscan 10.0.40.162 > tmpknownhosts
+  #         ssh -o UserKnownHostsFile=tmpknownhosts fhvdevops@10.0.40.162 'bash -s' < ./prod.sh 
+  #         rm tmpknownhosts
+  #       name: run command
